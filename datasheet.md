@@ -51,7 +51,7 @@ The DAQ firmware will listen for line-oriented commands on the UART, at a nomina
 - `start`: Commence logging of incoming ADC data to gapless .wav files to nonvolatile storage
     - `start [value]`: If a value is given, it will be interpreted as a number of seconds after which to stop recording. WARNING: as currently implemented, if this feature is abused to generate a large amount of files per unit time, scaling issues in the FAT filesystem will cause the recorder to fail to make hard-rt deadlines after a matter of hours rather than months.
 
-- `stop`: Request that logging of ADC data to .wav files be stopped, at the next cluster boundary
+- `stop`: Request that logging of ADC data to .wav files be stopped, at the next cluster boundary, which may be several seconds depending on card cluster size and sample rate.
 
 - `status`: Print whether rtc is set, whether recording is enabled, and whether USB is enabled
 
@@ -121,7 +121,7 @@ Whenever commanded using `usb on` at the UART interface, the microcontroller wil
 
 Format an SDMMC card using a tool such as the official tool from sdcard.org, which is careful to align the FAT filesystem clusters to the physical erase cycle size of the card. For cards smaller than 64 GB, the formatter tool will choose FAT32 rather than exFAT, which would result in some operations taking prohivitively long. If this is the case, reformat the card using the mechanism built into your operating system.
 
-Push the momentary push button (or reed switch) for > 0.5 seconds until the light blinks, then release it, to begin recording. Push again for > 0.5 seconds to request that recording stop. The recording will not stop until the next erase cycle boundary, which may be several seconds, followed by more LED activity. TODO: firm up and document this
+Push the momentary push button (or reed switch) for > 0.5 seconds until the light blinks, then release it, to begin recording. Push again for > 0.5 seconds to request that recording stop. The recording will not stop until the next erase cycle boundary, which may be several seconds.
 
 ### Cards
 
