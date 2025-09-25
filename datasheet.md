@@ -77,7 +77,11 @@ The DAQ firmware will listen for line-oriented commands on the UART, at a nomina
 
 ### `$PGRAM`
 
-- `$PGRAM,[dt],[df],[bands_per_octave],[base64]*XX`: These messages encode pixel values, or equivalently, power per band, in a format that can be rendered into a near-real-time scrolling spectrogram by downstream utilities, or plotted as line plots of band power versus time. The exact format of these messages is in flux, but they will be individually small enough to fit in an SBD message. These messages, with different settings for resolution and rate, support many of the desired use cases, ranging from scrolling realtime spectrograms to long-period band power averages. These messages end with a valid NMEA checksum, which need not be forwarded to shore.
+A compressed representation of spectrogram data suitable for low-bandwidth exfiltration.
+
+    $PGRAM,[dt],[df],[bands_per_octave],[base64]*XX
+
+These messages encode pixel values, or equivalently, power per band, in a format that can be rendered into a near-real-time scrolling spectrogram by downstream utilities, or plotted as line plots of band power versus time. The exact format of these messages is in flux, but they will be individually small enough to fit in an SBD message. These messages, with different settings for resolution and rate, support many of the desired use cases, ranging from scrolling realtime spectrograms to long-period band power averages. These messages end with a valid NMEA checksum, which need not be forwarded to shore.
 
 The set of frequency bins is logarithmically spaced, switching to linear spacing below a limit determined uniquely by the values of `df` and `bands_per_octave`. Specifically, the first of the log-spaced output bins would be the Nth linearly spaced frequency bin from DC, counting from zero, where `N = ceil(bands_per_octave / log(2))`. By convention, the lowest two linear frequency bins (the DC bin and the one adjacent to it) are omitted, as they are dominanted by whatever residual DC component is present, such that there are `N - 2` linearly-spaced bins in each message, and the first of the log-spaced bins is centered at a frequency of `N * df`. Python functions are available which map back and forth between frequency and bin index, given `df` and `bands_per_octave`.
 
@@ -95,7 +99,11 @@ The independent parameter `dt`, assuming it is longer than `0.5 / df`, indicates
 
 ### `$PSPL`
 
-- `$PSPL,[dt],[first band index],[base64]*XX`: These messages encode the RMS sound pressure level (SPL) in decidecade bands. During each integration interval of length `dt` (nominally 0.98304 seconds), the mean-squared SPL is calculated for each decidecade band, with a weighting that accounts for alignment with the underlying FFT as in [1]. The set of reported decidecade bands will be those which fully fit within the flat portion of the passband, and have sufficient support within the underlying FFT, as noted in [1].
+A compressed representation of sound pressure level (SPL) in ANSI decidecade bands.
+
+    $PSPL,[dt],[first band index],[base64]*XX
+
+These messages encode the RMS sound pressure level (SPL) in decidecade bands. During each integration interval of length `dt` (nominally 0.98304 seconds), the mean-squared SPL is calculated for each decidecade band, with a weighting that accounts for alignment with the underlying FFT as in [1]. The set of reported decidecade bands will be those which fully fit within the flat portion of the passband, and have sufficient support within the underlying FFT, as noted in [1].
 
 The rms SPLs are each encoded with 12 bits, representing the half-open interval from -192 dB to 0 dB relative to ADC full scale, in 0.046875 dB increments. After extracting the given unsigned 12-bit integer and applying these offset and scaling values, the final conversion to absolute rms SPL levels in dB re uPa² requires adding the level in dB re uPa² of a full-scale signal at the ADC. This offset, or scaling factor if applied in SI units after converting from dB, will be a simple property of the hydrophone and the analog signal path (primarily preamp gain) between it and the ADC.
 
