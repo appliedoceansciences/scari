@@ -49,7 +49,6 @@ Some variants of SCARI have a reed switch populated. If not started by UART comm
 The DAQ firmware will listen for line-oriented commands on the UART, at a nominal initial baud rate of 115200, 8N1, 3.3V signalling level. The firmware shall react identically to lines of input terminated with any combination of `\r` or `\n`, in any order.
 
 - `start`: Commence logging of incoming ADC data to gapless .wav files to nonvolatile storage
-    - `start [value]`: If a value is given, it will be interpreted as a number of seconds after which to stop recording. WARNING: as currently implemented, if this feature is abused to generate a large amount of files per unit time, scaling issues in the FAT filesystem will cause the recorder to fail to make hard-rt deadlines after a matter of hours rather than months.
 
 - `stop`: Request that logging of ADC data to .wav files be stopped, at the next cluster boundary, which may be several seconds depending on card cluster size and sample rate.
 
