@@ -134,6 +134,8 @@ Overall power consumption when logging is strongly affected by choice of SDMMC c
 
 A Sandisk Extreme Plus 128GB did not work, symptom was solid red activity light and 400-600% card overhead factors.
 
+A Sandisk High Endurance 256 GB card worked but used considerably more power than the equivalent Samsung card, and writes of a specific amount of data were observed to take twice as long.
+
 Other known working cards: Sandisk Ultra 64GB Class 10, Sandisk Extreme 1TB (draws significantly more power than the Samsung 1TB card)
 
 Known NOT working cards: Cheap Amazon Kootion 64 GB. The lower quality cards may or may not work if more strict assumptions are satisfied w/r series resistors on the SPI pins, baud rate, power supply decoupling, and whatnot - this will require more testing.
