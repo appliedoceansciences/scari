@@ -72,7 +72,7 @@ The DAQ firmware will listen for line-oriented commands on the UART, at a nomina
 
 - `reset`: Immediately perform a soft reset, without cleanly stopping any existing tasks
 
-- `$PCFG,[sample rate],[comma separated feature flags]*XX`: Set the desired sample rate, and provide a comma separated list of zero or more of `rec`, `usb`, `spl`, and `gram`, provided by a NMEA checksum of the whole line. This allows for validated single-line configuration of everything SCARI is supposed to be doing. NOTE: this option has not yet been fielded and is still subject to change. Please let us know if you exercise this option in the field.
+- `$PCFG,[sample rate],[comma separated feature flags]*XX`: Set the desired sample rate, and provide a comma separated list of zero or more of `rec`, `usb`, `spl`, and `gram`, provided by a NMEA checksum of the whole line. This allows for validated single-line configuration of everything SCARI is supposed to be doing.
 
 ### `config.txt`
 
