@@ -74,6 +74,20 @@ The DAQ firmware will listen for line-oriented commands on the UART, at a nomina
 
 - `$PCFG,[sample rate],[comma separated feature flags]*XX`: Set the desired sample rate, and provide a comma separated list of zero or more of `rec`, `usb`, `spl`, and `gram`, provided by a NMEA checksum of the whole line. This allows for validated single-line configuration of everything SCARI is supposed to be doing.
 
+#### The `$PCFG` mechanism
+
+The `$PCFG` mechanism summarized above allows for single-line configuration of what the DAQ should be doing. The following properties apply:
+
+- The DAQ will not act upon a `$PCFG` which does not pass its checksum, instead printing an error message. As a convenience to human operators, it will print an error messages that includes the expected checksum in the error message.
+
+- The DAQ will echo the entire `$PCFG` line as-is, with no additional prefix or suffix, after validating the checksum and acting upon it. The sending end can use the presence or absence of this echo, with valid checksum, after some reasonable timeout, to validate that the DAQ has successfully received and acted upon the string.
+
+- Subsequent duplicate `$PCFG` strings which do not need to result in any state change will be echoed by the DAQ but are otherwise consequence-free.
+
+- If a state change is required, the DAQ will attempt to make only that change, without interrupting any other tasks. For example, if `,usb` is absent in the incoming `$PCFG`, and was present in a preceding one, then the USB task and peripheral will be stopped, without interrupting recording or other tasks that were and still are desired. However, if the requested sample rate changes, all tasks which use the data stream from the DAQ must necessarily be stopped and restarted.
+
+- The DAQ will form and send a `$PCFG` of its own upon initial startup and when requested to do so, and the exact contents of this DAQ-originated `$PCFG` may differ from what it would echo when acknowledging an incoming `$PCFG` line. The recommended way to differentiate these is to include a sentinel field in the externally originating `$PCFG`, and check for its presence and absence in `$PCFG` lines received from the DAQ.
+
 ### `config.txt`
 
 If a file called `config.txt` is present on the SDMMC filesystem at boot, it will be parsed and interpreted identically to the `...` portion of the `$PCFG,...*XX` UART configuration string - that is, the sample rate and feature flags, without the `$PCFG,` prefix or `*XX` checksum. Please note that the firmware does NOT overwrite this file when the commanded configuration is changed via UART.
