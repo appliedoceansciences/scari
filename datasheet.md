@@ -128,8 +128,6 @@ The rms SPLs are each encoded with 12 bits, representing the half-open interval 
 
 Conversion of these values from mean-squared SPL in uPa², to SEL in uPa² seconds, may be performed downstream by multiplying the mean-squared SPL by `dt`. Note that these conversions must be applied in SI units prior to final conversion to dB.
 
-- `$PREC,[flags],[just finished filename],[seconds written],[seconds free]*XX`: These messages will be emitted whenever the recording status changes. The least significant bit of the `flags` will be 0 if recording was not started or has stopped, or 1 if recording has started or is continuing. The name of the just-successfully-closed file, and the approximate number of seconds of data recorded to it, are emitted, followed by the approximate number of seconds (neglecting overhead) of remaining recording capacity, if known.
-
 [1] ISO 7605:2023 section 1.1.4.3, Calculation of band levels in frequency domain using the DFT
 
 ## USB connectivity
