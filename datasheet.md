@@ -42,7 +42,7 @@ On newer SCARI revisions, a piezo buzzer will give audible feedback of successfu
 
 ### UART Commands
 
-The DAQ firmware will listen for line-oriented commands on the UART, at a nominal initial baud rate of 115200, 8N1, 3.3V signalling level. The firmware shall react identically to lines of input terminated with any combination of `\r` or `\n`, in any order.
+The DAQ firmware listens for line-oriented commands on the UART, at a nominal initial baud rate of 115200, 8N1, 3.3V signalling level. The firmware shall react identically to lines of input terminated with `\n` or `\r\n`. All received lines are echoed with a preceding `% ` sequence.
 
 - `start`: Commence logging of incoming ADC data to gapless .wav files to nonvolatile storage
 
