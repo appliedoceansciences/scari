@@ -40,10 +40,6 @@ An LED will blink once every four seconds as a sign of life. This may be routed 
 
 On newer SCARI revisions, a piezo buzzer will give audible feedback of successful powerup, commanded state changes, and error conditions.
 
-### Reed switch
-
-Some variants of SCARI have a reed switch populated. If not started by UART command or automatically upon powerup, recording can be started by holding a magnet near the reed switch for more than 0.5 seconds and then removing it. The reed switch is also exposed as a momentary push button on the PCB itself.
-
 ### UART Commands
 
 The DAQ firmware will listen for line-oriented commands on the UART, at a nominal initial baud rate of 115200, 8N1, 3.3V signalling level. The firmware shall react identically to lines of input terminated with any combination of `\r` or `\n`, in any order.
