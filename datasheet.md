@@ -52,7 +52,7 @@ The DAQ firmware listens for line-oriented commands on the UART, at a nominal in
 
 - `fs [value]`: Change from default sample rate to the closest allowable value to a desired rate. Has no immediate effect if any task has already requested that the ADC be on.
 
-- `dsp on`, `dsp off`: Enable or disable the generation of NMEA-like `$PGRAM` and/or `$PSPL` messages which will be sent via the UART. These messages encode pixel data which can be rendered into a near-real-time scrolling spectrogram by downstream utilities, or plotted as line plots of band power versus time
+- `dsp on`, `dsp off`: Enable or disable the generation of NMEA-like `$PGRAM` and/or `$PSPL` messages which will be sent via the UART. These messages encode pixel data which can be rendered into a near-real-time scrolling spectrogram by downstream utilities, or plotted as line plots of band power versus time. Note: on newer versions, this command is a no-op and the below commands toggle these messages immediately.
 
 - `pgram on`, `pgram off`: Enable or disable `$PGRAM` generation when DSP is on. Defaults to off. Must be performed before `dsp on`.
 
