@@ -26,9 +26,11 @@ If, upon powerup, the firmware notices that the most recent directory still cont
 
 The set of numbered directories increments from `000000` to `999999` and, unless data has been deleted from the card, it will then fail to continue to log data, although the firmware will continue to perform other processing and passthrough tasks.
 
-#### Notes
+#### Data access while deployed
 
-Note that as currently implemented, this copy of the data, stored on the acoustic DAQ microSD card, cannot be retrieved by the Linux SBC. Recovery of data recorded to the microSD card on the acoustic DAQ is only possible by opening of the enclosure. If logging of raw data is enabled on the Linux SBC, it and any derived results can be exfiltrated via the SBC's Wi-Fi connection.
+On older versions, the copy of the data stored on the acoustic DAQ microSD card cannot be retrieved by the Linux SBC. Recovery of data recorded to the microSD card on the acoustic DAQ is only possible by removal of the SD card.
+
+On newer versions, a replay mechanism is available whereby a continuously recording DAQ, paired with a periodically booted Linux SBC attached via USB, will allow all data recorded since the previous boot to be replayed from the DAQ microSD card at faster than real time, seamlessly transitioning to normal real time speed once it is caught up, without interrupting recording of new data. The speed of this faster-than-real-time replay is limited by the 12 Mbit USB link - lower sample rates will therefore require that the Linux SBC be booted for proportionally less time to receive all the recorded data over some interval.
 
 ## Interface
 
@@ -50,7 +52,7 @@ The DAQ firmware listens for line-oriented commands on the UART, at a nominal in
 
 - `status`: Print whether rtc is set, whether recording is enabled, and whether USB is enabled
 
-- `fs [value]`: Change from default sample rate to the closest allowable value to a desired rate. Has no immediate effect if any task has already requested that the ADC be on.
+- `fs [value]`: Change from default sample rate to the closest allowable value to a desired rate. Has no effect if any task has already requested that the ADC be on.
 
 - `pgram on`, `pgram off`: Enable or disable the generation of NMEA-like `$PGRAM` messages which will be sent via the UART. These messages encode pixel data which can be rendered into a near-real-time scrolling spectrogram by downstream utilities, or plotted as line plots of band power versus time. See later section for more details.
 
