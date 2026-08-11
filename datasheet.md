@@ -52,11 +52,11 @@ The DAQ firmware listens for line-oriented commands on the UART, at a nominal in
 
 - `fs [value]`: Change from default sample rate to the closest allowable value to a desired rate. Has no immediate effect if any task has already requested that the ADC be on.
 
-- `dsp on`, `dsp off`: Enable or disable the generation of NMEA-like `$PGRAM` and/or `$PSPL` messages which will be sent via the UART. These messages encode pixel data which can be rendered into a near-real-time scrolling spectrogram by downstream utilities, or plotted as line plots of band power versus time. Note: on newer versions, this command is a no-op and the below commands toggle these messages immediately.
+- `pgram on`, `pgram off`: Enable or disable the generation of NMEA-like `$PGRAM` messages which will be sent via the UART. These messages encode pixel data which can be rendered into a near-real-time scrolling spectrogram by downstream utilities, or plotted as line plots of band power versus time. See later section for more details.
 
-- `pgram on`, `pgram off`: Enable or disable `$PGRAM` generation when DSP is on. Defaults to off. Must be performed before `dsp on`.
+- `pspl on`, `pspl off`: Enable or disable `$PSPL` generation. These are similar to `$PGRAM` messages but encode ANSI decidecade bands according to a standard definition.
 
-- `pspl on`, `pgram off`: Enable or disable `$PSPL` generation when DSP is on. Defaults to on. Must be performed before `dsp on`.
+- `dsp on`, `dsp off`: On older firmware versions, the above options merely toggle whether generation of those message types will be enabled next time the DSP task is started, which must be done explicitly. On newer versions these commands do nothing, and the above commands enable or disable the respective message types immediately.
 
 - `time`, `gpzda`: Generate and send a human-readable or NMEA `$GPZDA` string, respectively, representing the current RTC clock value.
 
