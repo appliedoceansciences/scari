@@ -128,7 +128,7 @@ Conversion of these values from mean-squared SPL in uPa², to SEL in uPa² secon
 
 ## USB connectivity
 
-Whenever commanded using `usb on` at the UART interface, the microcontroller will enable its USB port and present itself to a USB host as a USB CDC serial device. Opening this device with the associated `cobs_to_shm` utility will result in a logging and soft-realtime processing capability as documented in that repository.
+Whenever commanded using `usb on` at the UART interface, the microcontroller will enable its USB port and present itself to a USB host as a USB CDC Ethernet or serial device, depending on version. Opening this device with the associated `udp_to_shm` or `cobs_to_shm` utilities, depending on version, will result in a logging and soft-realtime processing capability as documented in those repositories.
 
 ## Use
 
