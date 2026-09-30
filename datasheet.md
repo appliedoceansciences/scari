@@ -88,7 +88,9 @@ The `$PCFG` mechanism summarized above allows for single-line configuration of w
 
 ### `config.txt`
 
-If a file called `config.txt` is present on the SDMMC filesystem at boot, it will be parsed and interpreted identically to the `...` portion of the `$PCFG,...*XX` UART configuration string - that is, the sample rate and feature flags, without the `$PCFG,` prefix or `*XX` checksum. Please note that the firmware does NOT overwrite this file when the commanded configuration is changed via UART.
+Optionally, if a file called `config.txt` is present on the SDMMC filesystem at boot, it can be parsed and interpreted identically to the `...` portion of the `$PCFG,...*XX` UART configuration string - that is, the sample rate and feature flags, without the `$PCFG,` prefix or `*XX` checksum. Please note that the firmware does NOT overwrite this file when the commanded configuration is changed via UART.
+
+Note that this feature is not enabled by default on most builds, as it suffers an inherent race condition: it takes the firmware some time to load the card and load the configuration if present - or decide that the card is not present and time out - and in automated systems which are expecting to receive configuration via the UART shortly after boot, the order these will finish is unpredicable. An experimental persistent configuration option is being prototyped which will use the microcontroller's internal nonvolatile storage, and not suffer this race condition.
 
 ## Emitted messages
 
