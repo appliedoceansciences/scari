@@ -76,7 +76,7 @@ The DAQ firmware listens for line-oriented commands on the UART, at a nominal in
 
 The `$PCFG` mechanism summarized above allows for single-line configuration of what the DAQ should be doing. The following properties apply:
 
-- The DAQ will not act upon a `$PCFG` which does not pass its checksum, instead printing an error message. As a convenience to human operators, it will print an error messages that includes the expected checksum in the error message.
+- The DAQ will not act upon a `$PCFG` which does not pass its checksum, instead printing an error message. As a convenience to human operators, it will print an error messages that includes the expected checksum in the error message. This checksum is not required when sending the `$PCFG` as a newline-terminated UDP packet.
 
 - The DAQ will echo the entire `$PCFG` line as-is, with no additional prefix or suffix, after validating the checksum and acting upon it. The sending end can use the presence or absence of this echo, with valid checksum, after some reasonable timeout, to validate that the DAQ has successfully received and acted upon the string.
 
@@ -131,6 +131,8 @@ Conversion of these values from mean-squared SPL in uPa², to SEL in uPa² secon
 ## USB connectivity
 
 Whenever commanded using `usb on` at the UART interface, the microcontroller will enable its USB port and present itself to a USB host as a USB CDC Ethernet or serial device, depending on version. Opening this device with the associated `udp_to_shm` or `cobs_to_shm` utilities, depending on version, will result in a logging and soft-realtime processing capability as documented in those repositories.
+
+When the USB CDC Ethernet mode is enabled, any commands which can be sent to SCARI via UART can also be sent in the form of newline-terminated strings within UDP packets, one per line, to UDP port 23. As of this writing, only a small subset of commands will result in UDP responses.
 
 ## Use
 
